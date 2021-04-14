@@ -1,7 +1,7 @@
 #imports
 import firebase_admin
 import pyrebase
-import json
+#import json
 from firebase_admin import credentials, auth
 from flask import Flask, request
 
@@ -11,7 +11,7 @@ app = Flask(__name__)
 # Connect app with firebase
 credentials = credentials.Certificate('fbAdminConfig.json')
 firebase = firebase_admin.initialize_app(credentials)
-pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
+#pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
 
 @app.route('/')
 def index():
@@ -20,7 +20,7 @@ def index():
 # get user info
 @app.route('/api/userinfo')
 def userinfo():
-    return {'data': users}, 200
+    return {'data': "Abdur Rahman"}, 200
 
 
 if __name__ == '__main__':
