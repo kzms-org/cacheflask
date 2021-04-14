@@ -1,16 +1,16 @@
-#imports
-import firebase_admin
-import pyrebase
-#import json
-from firebase_admin import credentials, auth
+# #imports
+# import firebase_admin
+# import pyrebase
+# #import json
+# from firebase_admin import credentials, auth
 from flask import Flask, request
 
 # Appconfig
 app = Flask(__name__)
 
 # Connect app with firebase
-credentials = credentials.Certificate('fbAdminConfig.json')
-firebase = firebase_admin.initialize_app(credentials)
+# credentials = credentials.Certificate('fbAdminConfig.json')
+# firebase = firebase_admin.initialize_app(credentials)
 #pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
 
 @app.route('/')
