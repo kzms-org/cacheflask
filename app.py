@@ -1,27 +1,28 @@
-# #imports
-# import firebase_admin
-# import pyrebase
+# imports
 import json
-# from firebase_admin import credentials, auth
 from flask import Flask, request, render_template
 
 # Appconfig
 app = Flask(__name__)
 
-# Connect app with firebase
-# credentials = credentials.Certificate('fbAdminConfig.json')
-# firebase = firebase_admin.initialize_app(credentials)
-#pb = pyrebase.initialize_app(json.load(open('fbconfig.json')))
+# Routes and their functions
 
+# default route just to test the connection
 @app.route('/')
 def index():
     return '<p>works</p>'
 
-# get user info
+# CSV preprocessing route that will return a json object with all transactions
+@app.route('/csvPreProcessing', methods= ['GET', 'POST'])
+def momosFunction():
+    return None
+
+# get user info (TEST)
 @app.route('/api/userinfo')
 def userinfo():
     return {'data': "Abdur Rahman"}, 200
 
+# routes to this page if an incorrect url is entered
 @app.errorhandler(404)
 def page_not_found(e):
     return {'message': "ERROR 404"}, 404
