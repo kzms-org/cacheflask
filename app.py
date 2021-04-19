@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import numpy as np
 import functools
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import requests
 
 
@@ -131,7 +131,7 @@ def csvPreProcessing():
             with open("Earn.json", "w") as outfile: 
                 json.dump(earn_dict, outfile)
     
-            return json.dumps({"income":earn_dict})
+            return jsonify({"income":earn_dict})
 
         else: 
             return "file not found"
