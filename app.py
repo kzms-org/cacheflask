@@ -131,7 +131,7 @@ def csvPreProcessing():
             with open("Earn.json", "w") as outfile: 
                 json.dump(earn_dict, outfile)
     
-            return jsonify({"income":earn_dict})
+            return json.dumps({"income":earn_dict})
 
         else: 
             return "file not found"
