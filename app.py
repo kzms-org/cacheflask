@@ -22,7 +22,6 @@ def index():
 def csvPreProcessing():
     print("inside csvpreprocessing")
     if request.method == "POST":
-        print("post request is there"+ request.files['file'])
         print(request.files['file'].filename)
 
         if request.files['filename']:
