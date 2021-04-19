@@ -106,6 +106,8 @@ def csvPreProcessing():
             df_Debit  = df_split.iloc[:,3:4]
             df_Credit = df_split.iloc[:,4:5]
             df_Item   = df_split.iloc[:,6:]
+            df_Date = df_split.iloc[:,0:1]
+
 
             df_Trans = pd.concat([df_Date, df_Debit, df_Credit, df_Item], axis=1)
 
