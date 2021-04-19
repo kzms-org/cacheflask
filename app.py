@@ -22,7 +22,9 @@ def index():
 def csvPreProcessing():
     print("inside csvpreprocessing")
     if request.method == "POST":
-        print("post request is there")
+        print("post request is there"+ request.files['file'])
+        print(request.files['file'].filename)
+
         if request.files['filename']:
             print("has receipt report.csv")
             csv_file = request.files['filename'].name
@@ -129,7 +131,10 @@ def csvPreProcessing():
             with open("Earn.json", "w") as outfile: 
                 json.dump(earn_dict, outfile)
     
-            return HttpResponse(json.load(earn_dict), content_type="application/json")
+            return json.dump(earn_dict)
+
+        else: 
+            return "file not found"
     else:
         return "Could not handle request"
 
