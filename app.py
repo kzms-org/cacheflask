@@ -126,8 +126,8 @@ def csvPreProcessing():
 
             with open("Earn.json", "w") as outfile: 
                 json.dump(earn_dict, outfile)
-    
-            return HttpResponse(json.load(earn_dict), content_type="application/json")
+
+            return json.load(earn_dict)
     else:
         return "Could not handle request"
 
