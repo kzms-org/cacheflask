@@ -102,7 +102,7 @@ def csvPreProcessing():
             # Preparing The needed CSV files
 
             ## Transaction Dataset"""
-
+            df_split = df_beta.copy()
             df_Debit  = df_split.iloc[:,3:4]
             df_Credit = df_split.iloc[:,4:5]
             df_Item   = df_split.iloc[:,6:]
