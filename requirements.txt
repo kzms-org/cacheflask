@@ -1,5 +1,5 @@
+numpy==1.19.5
 Flask==1.1.2
-firebase_admin==4.5.3
-Pyrebase_t==1.0.28
-pyrebase==3.0.27
+requests==2.22.0
+pandas==1.2.4
 gunicorn

@@ -22,7 +22,7 @@ def index():
 def csvPreProcessing():
 
     if request.method == "POST":
-        if request.files["receiptReport.csv"]
+        if request.files["receiptReport.csv"]:
             csv_file = request.files["receiptReport.csv"]
 
             df = pd.read_csv(csv_file)
