@@ -23,9 +23,9 @@ def csvPreProcessing():
     print("inside csvpreprocessing")
     if request.method == "POST":
         print("post request is there")
-        if request.files["receiptReport"]:
+        if request.files['filename']:
             print("has receipt report.csv")
-            csv_file = request.files["receiptReport"]
+            csv_file = request.files['filename'].name
 
             df = pd.read_csv(csv_file)
             print(df)
