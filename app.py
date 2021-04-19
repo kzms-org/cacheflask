@@ -26,9 +26,7 @@ def csvPreProcessing():
 
         if request.files['file'].filename != None:
             print("has receipt report.csv")
-            csv_file_name = request.files['file'].filename
-            csv_file = request.files[csv_file_name]
-            print(csv_file)
+            csv_file = request.files['file']
             df = pd.read_csv(csv_file)
             print(df)
             df_1 = df.iloc[:11,:]
