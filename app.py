@@ -20,13 +20,15 @@ def index():
 # CSV preprocessing route that will return a json object with all transactions
 @app.route('/csvPreProcessing', methods= ['GET', 'POST'])
 def csvPreProcessing():
-
+    print("inside csvpreprocessing")
     if request.method == "POST":
+        print("post request is there")
         if request.files["receiptReport.csv"]:
+            print("has receipt report.csv")
             csv_file = request.files["receiptReport.csv"]
 
             df = pd.read_csv(csv_file)
-
+            print(df)
             df_1 = df.iloc[:11,:]
             df_2 = df.iloc[12:,:]
 
