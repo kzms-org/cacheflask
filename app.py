@@ -63,7 +63,7 @@ def csvPreProcessing():
                                             
             df_info.drop(columns=[list(df_info)[3], 'Unnamed: 4', 'Unnamed: 5', 'Unnamed: 6'],axis=1, inplace=True)
             df_info.reset_index(drop=True, inplace=True)
-            df_user_info = pd.concat([df_info, df_latest_balancedf_balance], axis=1)
+            df_user_info = pd.concat([df_info, df_latest_balance], axis=1)
 
             info_dict = df_user_info.to_dict('records')
 
