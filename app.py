@@ -37,14 +37,22 @@ def csvPreProcessing():
             print("has receipt report.csv")
             csv_file = request.files['file']
             df = pd.read_csv(csv_file)
-            print(df)
+
+            df_latest_balance = df.tail(1)
+            df_latest_balance.drop(columns=[list(df_latest_balance)[1], 
+                                list(df_latest_balance)[2], 
+                                list(df_latest_balance)[3], 
+                                'Unnamed: 4', 
+                                'Unnamed: 5'],axis=1, inplace=True)
+
+            df_latest_balance.rename(columns={'Statement Date': 'Latest_Date',
+                                  'Unnamed: 6': 'Balance'}, inplace=True)
+
+            df_latest_balance.reset_index(drop=True, inplace=True)
+            df_latest_balance
+
             df_1 = df.iloc[:11,:]
             df_2 = df.iloc[12:,:]
-
-            df_balance = df_1.iloc[7:8,1:2]
-
-            df_balance.rename(columns={list(df_balance)[0]: 'balance'}, inplace=True)
-            df_balance.reset_index(drop=True, inplace=True)
 
             df_dup = df_1.iloc[2:3,:]
 
@@ -55,7 +63,7 @@ def csvPreProcessing():
                                             
             df_info.drop(columns=[list(df_info)[3], 'Unnamed: 4', 'Unnamed: 5', 'Unnamed: 6'],axis=1, inplace=True)
             df_info.reset_index(drop=True, inplace=True)
-            df_user_info = pd.concat([df_info, df_balance], axis=1)
+            df_user_info = pd.concat([df_info, df_latest_balancedf_balance], axis=1)
 
             info_dict = df_user_info.to_dict('records')
 
