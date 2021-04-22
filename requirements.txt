@@ -1,7 +1,7 @@
-numpy==1.18.4
+numpy==1.19.5
 matplotlib==3.2.1
 Flask==1.1.2
-pandas==1.0.3
+pandas==1.2.4
 requests==2.25.1
 fbprophet==0.7.1
 ipython==7.22.0
