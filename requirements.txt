@@ -5,5 +5,4 @@ pandas==1.2.4
 requests==2.25.1
 fbprophet==0.7.1
 ipython==7.22.0
-tensorflow==2.4.1
 gunicorn
