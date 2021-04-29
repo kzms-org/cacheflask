@@ -16,8 +16,6 @@ import functools
 import tensorflow as tf
 import IPython
 import IPython.display
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 from random import seed
 from random import random
 from fbprophet import Prophet
