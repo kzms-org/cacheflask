@@ -189,7 +189,90 @@ def to_apply(func, words_to_check):
     return functools.partial(func, words_to_check)
 
 # TESTING ML MODEL
-@app.route("/prophetModel", methods= ['GET', 'POST'])
+@app.route("/spendingForecast", methods= ['GET', 'POST'])
+def spendingForecast():
+    
+    """
+    Param@: [transactionsJSONversion,  Forecastingtime(week, month, year)]
+    """
+    print("inside goal tracking function")
+    if request.method == "POST":
+        
+        # read the variables
+        # pass the variables to prophet_model
+        # retrieve required answer
+        # send the answer back
+
+        return "worksPOST"
+    else:
+        return "NOT POST"
+    
+    
+
+
+
+
+@app.route("/goalTracking", methods= ['GET', 'POST'])
+def goalTracking():
+    """
+        Param@: [transactionsJSONversion,  goal(money user wants to save)]
+    """
+    print("inside goal tracking function")
+
+    if request.method == "POST":
+        
+        # read the variables
+        # pass the variables to prophet_model
+        # retrieve required answer
+        # send the answer back
+
+    # call to prophet_model()
+
+    return "works"
+
+
+
+@app.route("/balanceForecast", methods= ['GET', 'POST'])
+def balanceForecast():
+    """
+        Param@: [transactionsJSONversion,  Forecastingtime(week, month, year)]
+    """
+    print("inside goal tracking function")
+    
+    if request.method == "POST":
+        
+        # read the variables
+        # pass the variables to prophet_model
+        # retrieve required answer
+        # send the answer back
+
+    # call to prophet_model()
+
+    return "works"
+
+
+
+@app.route("/financialAdvising", methods= ['GET', 'POST'])
+def financialAdvising():
+    """
+        Param@: [transactionsJSONversion]
+    """
+    print("inside goal tracking function")
+    if request.method == "POST":
+        
+        # read the variables
+        # pass the variables to prophet_model
+        # retrieve required answer
+        # send the answer back
+
+
+    # call to prophet_model()
+
+    return "works"
+
+
+
+
 def prophet_model():
     
     print("inside prophetModel")
