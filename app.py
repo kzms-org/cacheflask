@@ -33,9 +33,9 @@ app = Flask(__name__)
 # Routes and their functions
 
 # default route just to test the connection
-@app.route('/')
+@app.route('/', methods= ["GET", "POST"])
 def index():
-    return '<p>works</p>'
+    return {'message':'<p>works</p>'}
 
 # CSV preprocessing route that will return a json object with all transactions
 @app.route('/csvPreProcessing', methods= ['GET', 'POST'])
@@ -192,7 +192,7 @@ def to_apply(func, words_to_check):
     return functools.partial(func, words_to_check)
 
 # TESTING ML MODEL
-@app.route("/MLModel/Prophet")
+@app.route("/prophetModel")
 def prophet_model():
     
     print("inside MLModel/Prophet")
