@@ -189,10 +189,10 @@ def to_apply(func, words_to_check):
     return functools.partial(func, words_to_check)
 
 # TESTING ML MODEL
-@app.route("/prophetModel")
+@app.route("/prophetModel", methods= ['GET', 'POST'])
 def prophet_model():
     
-    print("inside MLModel/Prophet")
+    print("inside prophetModel")
 
     if request.method == "POST":        
         print("inside post request ML MODEL PROPHET")
