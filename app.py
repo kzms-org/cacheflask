@@ -237,6 +237,8 @@ def prophet_model():
         return "this function works"
     else:
         return "Could not handle the request"
+    
+    return "Nothing to see here boi"
 
 
 
