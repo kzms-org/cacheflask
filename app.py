@@ -21,6 +21,8 @@ import matplotlib.pyplot as plt
 from random import seed
 from random import random
 from fbprophet import Prophet
+from prophet.diagnostics import performance_metrics
+from prophet.diagnostics import cross_validation
 from flask import Flask, request, render_template, jsonify
 import requests
 
@@ -188,6 +190,56 @@ def remove_succeeders(end_list, string):
 
 def to_apply(func, words_to_check):
     return functools.partial(func, words_to_check)
+
+# TESTING ML MODEL
+@app.route("/MLModel/Prophet")
+def prophet_model():
+    
+    print("inside MLModel/Prophet")
+
+    if request.method == "POST":        
+        print("inside post request ML MODEL PROPHET")
+        # make sure to get the input here, then uncomment the rest
+        k_trans_pro = []
+        n = len(k_trans_pro)
+        d = .. // number of days to predict
+        pro_train_df = k_trans_pro[0:n-d]
+        pro_test_df_y = k_trans_pro[n-d:]
+        pro_test_df = k_trans_pro[n-d:].drop(['y'], axis = 1)
+
+        param_grid = {  
+            'changepoint_prior_scale': [0.001, 0.01, 0.1, 0.5],
+            'seasonality_prior_scale': [0.01, 0.1, 1.0, 10.0],
+        }
+
+        # Generate all combinations of parameters
+        all_params = [dict(zip(param_grid.keys(), v)) for v in itertools.product(*param_grid.values())]
+        rmses = []  # Store the RMSEs for each params here
+
+
+        # Use cross validation to evaluate all parameters
+        for params in all_params:
+            m = Prophet(**params).fit(pro_train_df)  # Fit model with given params
+            df_cv = cross_validation(m, period='30 days', horizon='30 days', parallel="processes")
+            df_p = performance_metrics(df_cv, rolling_window=1)
+            rmses.append(df_p['rmse'].values[0])
+
+        # Find the best parameters
+        tuning_results = pd.DataFrame(all_params)
+        tuning_results['rmse'] = rmses
+        best_params = all_params[np.argmin(rmses)]
+        pro_model_tuned = Prophet(**best_params).fit(pro_train_df)
+        forecast_pro = pro_model.predict(pro_test_df)
+        
+        ## Here you find the predictions
+        predictions = forecast[['ds', 'yhat']].head()
+
+        return "this function works"
+    else:
+        return "Could not handle the request"
+
+
+
 
 # get user info (TEST)
 @app.route('/api/userinfo')
