@@ -13,7 +13,6 @@ import json
 import pandas as pd
 import numpy as np
 import functools
-import tensorflow as tf
 import IPython
 import IPython.display
 from random import seed
