@@ -172,7 +172,6 @@ def csvPreProcessing():
     else:
         return "Could not handle request"
 
-
 def remove_preceders(start_list, string):
         for word in start_list:
             if word in string:
@@ -191,7 +190,6 @@ def to_apply(func, words_to_check):
 # TESTING ML MODEL
 @app.route("/spendingForecast", methods= ['GET', 'POST'])
 def spendingForecast():
-    
     """
     Param@: [transactionsJSONversion,  Forecastingtime(week, month, year)]
     """
@@ -222,7 +220,7 @@ def goalTracking():
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
-
+        return "works"
     # call to prophet_model()
 
     return "works"
@@ -242,7 +240,7 @@ def balanceForecast():
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
-
+        return "works"
     # call to prophet_model()
 
     return "works"
@@ -262,7 +260,7 @@ def financialAdvising():
         # retrieve required answer
         # send the answer back
 
-
+        return "works"
     # call to prophet_model()
 
     return "works"
