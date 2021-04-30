@@ -206,9 +206,6 @@ def spendingForecast():
         return "worksPOST"
     else:
         return "NOT POST"
-    
-    
-
 
 
 
@@ -269,7 +266,6 @@ def financialAdvising():
     # call to prophet_model()
 
     return "works"
-
 
 
 
