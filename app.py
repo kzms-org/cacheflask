@@ -231,7 +231,7 @@ def goalTracking():
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
-
+        return "works POST"
     # call to prophet_model()
 
     return "works"
@@ -253,7 +253,7 @@ def balanceForecast():
         # send the answer back
 
     # call to prophet_model()
-
+        return "works POST"
     return "works"
 
 
@@ -271,7 +271,7 @@ def financialAdvising():
         # retrieve required answer
         # send the answer back
 
-
+        return "works POST"
     # call to prophet_model()
 
     return "works"
