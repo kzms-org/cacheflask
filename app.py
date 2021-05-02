@@ -32,7 +32,7 @@ app = Flask(__name__)
 def index():
     return {'message':'<p>works</p>'}
 
-Training_dataset = null
+Training_dataset = None
 
 # CSV preprocessing route that will return a json object with all transactions
 @app.route('/csvPreProcessing', methods= ['GET', 'POST'])
