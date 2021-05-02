@@ -217,7 +217,10 @@ def spendingForecast():
         print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
         print()
         print()
-        print(transactions_dict)
+        #print(transactions_dict)
+
+        pd_train = pd.DataFrame.from_dict(transactions_dict, orient='index')
+        print(pd_train)
         # read the variables
         # pass the variables to prophet_model
         # retrieve required answer
