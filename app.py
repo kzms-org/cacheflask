@@ -206,7 +206,8 @@ def spendingForecast():
     """
     print("inside goal tracking function")
     if request.method == "POST":
-        
+        mydata = request.get_json()
+        print(mydata)
         # read the variables
         # pass the variables to prophet_model
         # retrieve required answer
