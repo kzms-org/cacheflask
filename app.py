@@ -208,7 +208,16 @@ def spendingForecast():
     if request.method == "POST":
         print("spendingForecast POST")
         mydata = request.get_json()
-        print(type(mydata))
+        days = mydata["days"]
+        transactions_dict = mydata["transactions"]
+        print()
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print(transactions_dict["ds"])
+        print(transactions_dict["y"])
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print()
+        print()
+        print(transactions_dict)
         # read the variables
         # pass the variables to prophet_model
         # retrieve required answer
