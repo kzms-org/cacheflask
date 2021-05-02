@@ -204,8 +204,9 @@ def spendingForecast():
     """
     Param@: [transactionsJSONversion,  Forecastingtime(week, month, year)]
     """
-    print("inside goal tracking function")
+    print("inside spendingForecast function")
     if request.method == "POST":
+        print("spendingForecast POST")
         mydata = request.get_json()
         print(mydata)
         # read the variables
