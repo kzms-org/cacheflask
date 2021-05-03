@@ -337,7 +337,7 @@ def prophet_model(pd_train, days):
     forecast_pro = pro_model.predict(pro_test_df);
 
     ## Here you find the predictions
-    predictions = forecast[['ds', 'yhat']].head()
+    predictions = forecast_pro[['ds', 'yhat']].head()
 
     ###
     # HERE, convert the precitions to a json doc that looks like this
