@@ -20,6 +20,7 @@ from fbprophet import Prophet
 from prophet.diagnostics import performance_metrics
 from prophet.diagnostics import cross_validation
 from flask import Flask, request, render_template, jsonify
+import seaborn as sns
 import requests
 
 
@@ -220,11 +221,12 @@ def spendingForecast():
         predictions = predict(pd_train, days)
 
         print(predictions)
+        graph_img = graph_pre(predictions)
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
         #jsonify({"message": , "iamge": image})
-        return jsonify("message":"What you need to do is stop spending money on Genshin Impact..","image": )
+        return jsonify("message":"This how your spendings will look","image": graph_img)
     else:
         return "NOT POST"
 
@@ -367,6 +369,23 @@ def predict(k_trans_pro, days):
     forecast_pro = pro_model_tuned.predict(pro_test_df)
     predictions = forecast_pro[['ds', 'yhat']].head()
     return predictions
+
+def graph_pre(pred_dataset):
+    df_train = pd.read_csv(pred_dataset, index_col=0)
+    df_train['ds'] = df_train['ds'].astype('datetime64')
+
+    df_train = df_train.set_index("ds")
+    # create new columns from datetime index
+    df_train["year"] = df_train.index.year
+    df_train["month"] = df_train.index.month
+    df_train["day"] = df_train.index.day
+
+    x = df_train.groupby(["year", "month", "day"])["y"].mean()
+    df_wide = x.unstack()
+
+    sns.set(rc={'figure.figsize':(15,9)})
+    sns_plot=sns.barplot(x = 'day', y='y', data = df_train);
+    return sns_plot.figure.savefig('output.png')
 
 # get user info (TEST)
 @app.route('/api/userinfo')
