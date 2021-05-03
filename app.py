@@ -211,7 +211,6 @@ def spendingForecast():
         mydata = request.get_json()
         
         days = mydata["days"]
-        print(days)
         transactions_dict = mydata["transactions"]
         print(transactions_dict)
         
