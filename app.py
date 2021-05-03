@@ -212,6 +212,7 @@ def spendingForecast():
         
         days = mydata["days"]
         transactions_dict = mydata["transactions"]
+        print(transactions_dict)
         
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
