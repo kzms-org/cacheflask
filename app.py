@@ -223,7 +223,7 @@ def spendingForecast():
         # retrieve required answer
         # send the answer back
 
-        return "worksPOST"
+        return "What you need to do is stop spending money on Genshin Impact.."
     else:
         return "NOT POST"
 
