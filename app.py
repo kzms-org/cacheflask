@@ -173,9 +173,9 @@ def csvPreProcessing():
             # with open("Earn.json", "w") as outfile: 
             #     json.dump(earn_dict, outfile)
 
-
+            transaction_json_Data = jsonify({"income":earn_dict, "expense":spend_dict, "User_info":info_dict})
     
-            return jsonify({"income":earn_dict, "expense":spend_dict, "User_info":info_dict})
+            return transaction_json_Data
 
         else: 
             return "file not found"
