@@ -11,6 +11,7 @@ import json
 import pandas as pd
 import numpy as np
 import functools
+import itertools
 import IPython
 import IPython.display
 from random import seed
