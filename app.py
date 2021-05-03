@@ -221,7 +221,7 @@ def spendingForecast():
         predictions = predict(pd_train, days)
 
         print(predictions)
-        graph_img = graph_pre(predictions)
+        graph_img = getImageBytes() graph_pre(predictions))
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
@@ -387,6 +387,13 @@ def graph_pre(pred_dataset):
     sns_plot=sns.barplot(x = 'day', y='y', data = df_train);
     return sns_plot.figure.savefig('output.png')
 
+def getImageBytes(filePath):
+    img = Image.open(filePath, mode='r')
+    imgByteArr = io.BytesIO()
+    imgByteArr = imgByteArr.getvalue()
+    imgByteArr = base64.encodebytes(imgByteArr).decode('ascii')
+
+    return imgByteArr
 # get user info (TEST)
 @app.route('/api/userinfo')
 def userinfo():
