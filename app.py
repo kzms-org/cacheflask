@@ -224,7 +224,7 @@ def spendingForecast():
         # retrieve required answer
         # send the answer back
         #jsonify({"message": , "iamge": image})
-        return "What you need to do is stop spending money on Genshin Impact.."
+        return jsonify("message":"What you need to do is stop spending money on Genshin Impact..","image": )
     else:
         return "NOT POST"
 
