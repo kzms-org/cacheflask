@@ -263,6 +263,7 @@ def balanceForecast():
         
         days = mydata["days"]
         transactions_dict = mydata["transactions"]
+        balance = mydata["balance"]
         print(transactions_dict)
         
 
