@@ -226,7 +226,7 @@ def spendingForecast():
         # retrieve required answer
         # send the answer back
         #jsonify({"message": , "iamge": image})
-        return jsonify("message":"This how your spendings will look","image": graph_img)
+        return jsonify({"message":"This how your spendings will look","image": graph_img})
     else:
         return "NOT POST"
 
