@@ -300,14 +300,20 @@ def financialAdvising():
 
     return "works"
 
+from prophet.serialize import model_to_json, model_from_json
 
+def prophet_model(Train, Days):
 
-def prophet_model(pd_train, days):
-    
-
-    k_trans_pro = pd_train
+    # make sure to get the input here, then uncomment the rest
+    ###
+    # HERE, convert the  json that looks like this
+    # {"income":[{income fields},{},{}], "expense":spend_dict}
+    # to a dataframe
+    # the you can just do this: jsonify({"predictions": yourlist})
+    ###
+    k_trans_pro = Train
     n = len(k_trans_pro)
-    d = days
+    d = Days
     pro_train_df = k_trans_pro[0:n-d]
     pro_test_df_y = k_trans_pro[n-d:]
     pro_test_df = k_trans_pro[n-d:].drop(['y'], axis = 1)
@@ -334,23 +340,32 @@ def prophet_model(pd_train, days):
     tuning_results['rmse'] = rmses
     best_params = all_params[np.argmin(rmses)]
     pro_model_tuned = Prophet(**best_params).fit(pro_train_df)
-    forecast_pro = pro_model.predict(pro_test_df);
-
+    
+    with open('serialized_model.json', 'w') as fout:
+        json.dump(model_to_json(pro_model_tuned), fout)  # Save model
     ## Here you find the predictions
-    predictions = forecast_pro[['ds', 'yhat']].head()
+    
 
     ###
     # HERE, convert the precitions to a json doc that looks like this
     # { "predictions": [ {"ds": value, "yhat":value}, {"ds": value, "yhat":value}, {"ds": value, "yhat":value}, ]}
     # just get a list from your dataframe.
     # the you can just do this: jsonify({"predictions": yourlist})
-    ###
 
-    
-    return predictions
+    return None
 
+with open('serialized_model.json', 'r') as fin:
+    pro_model_tuned = model_from_json(json.load(fin))  # Load model
 
+k_trans_pro = Training_dataset
+n = len(k_trans_pro)
+d = 10
+pro_train_df = k_trans_pro[0:n-d]
+pro_test_df_y = k_trans_pro[n-d:]
+pro_test_df = k_trans_pro[n-d:].drop(['y'], axis = 1)
 
+forecast_pro = pro_model_tuned.predict(pro_test_df)
+predictions = forecast_pro[['ds', 'yhat']].head()
 
 # get user info (TEST)
 @app.route('/api/userinfo')
