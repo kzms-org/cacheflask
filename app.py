@@ -7,6 +7,8 @@ Original file is located at
 
 # imports
 
+from prophet.serialize import model_to_json, model_from_json
+from datetime import date, timedelta
 import json
 import pandas as pd
 import numpy as np
@@ -30,14 +32,15 @@ app = Flask(__name__)
 # Routes and their functions
 
 # default route just to test the connection
-@app.route('/', methods= ["GET", "POST"])
+@app.route('/', methods=["GET", "POST"])
 def index():
-    return {'message':'<p>works</p>'}
+    return {'message': '<p>works</p>'}
+
 
 Training_dataset = None
 
 # CSV preprocessing route that will return a json object with all transactions
-@app.route('/csvPreProcessing', methods= ['GET', 'POST'])
+@app.route('/csvPreProcessing', methods=['GET', 'POST'])
 def csvPreProcessing():
     print("inside csvpreprocessing")
     if request.method == "POST":
@@ -49,29 +52,30 @@ def csvPreProcessing():
             df = pd.read_csv(csv_file)
 
             df_latest_balance = df.tail(1)
-            df_latest_balance.drop(columns=[list(df_latest_balance)[1], 
-                                list(df_latest_balance)[2], 
-                                list(df_latest_balance)[3], 
-                                'Unnamed: 4', 
-                                'Unnamed: 5'],axis=1, inplace=True)
+            df_latest_balance.drop(columns=[list(df_latest_balance)[1],
+                                            list(df_latest_balance)[2],
+                                            list(df_latest_balance)[3],
+                                            'Unnamed: 4',
+                                            'Unnamed: 5'], axis=1, inplace=True)
 
             df_latest_balance.rename(columns={'Statement Date': 'Latest_Date',
-                                  'Unnamed: 6': 'Balance'}, inplace=True)
+                                              'Unnamed: 6': 'Balance'}, inplace=True)
 
             df_latest_balance.reset_index(drop=True, inplace=True)
             df_latest_balance
 
-            df_1 = df.iloc[:11,:]
-            df_2 = df.iloc[12:,:]
+            df_1 = df.iloc[:11, :]
+            df_2 = df.iloc[12:, :]
 
-            df_dup = df_1.iloc[2:3,:]
+            df_dup = df_1.iloc[2:3, :]
 
             df_info = df_dup.copy()
             df_info.rename(columns={'Statement Date': 'Currency',
-                                            list(df_info)[1]: 'Account_Number',
-                                            'Alinma ID number': 'Customer_Name'}, inplace=True)
-                                            
-            df_info.drop(columns=[list(df_info)[3], 'Unnamed: 4', 'Unnamed: 5', 'Unnamed: 6'],axis=1, inplace=True)
+                                    list(df_info)[1]: 'Account_Number',
+                                    'Alinma ID number': 'Customer_Name'}, inplace=True)
+
+            df_info.drop(columns=[list(df_info)[3], 'Unnamed: 4',
+                                  'Unnamed: 5', 'Unnamed: 6'], axis=1, inplace=True)
             df_info.reset_index(drop=True, inplace=True)
             df_user_info = pd.concat([df_info, df_latest_balance], axis=1)
 
@@ -88,8 +92,7 @@ def csvPreProcessing():
                                             'Unnamed: 5': 'Credit',
                                             'Unnamed: 6': 'Balance'}, inplace=True)
 
-
-            df_Transactions = df_Transactions.iloc[1:,:]
+            df_Transactions = df_Transactions.iloc[1:, :]
             df_Transactions.reset_index(drop=True, inplace=True)
 
             """# Edit Transaction Table"""
@@ -103,9 +106,9 @@ def csvPreProcessing():
             df_edit['Date'] = df_edit['Date'].astype('datetime64')
 
             df_col = df_edit.copy()
-            df_col['Debit'] = df_col['Debit'].str.replace(',','')
-            df_col['Credit'] = df_col['Credit'].str.replace(',','')
-            df_col['Balance'] = df_col['Balance'].str.replace(',','')
+            df_col['Debit'] = df_col['Debit'].str.replace(',', '')
+            df_col['Credit'] = df_col['Credit'].str.replace(',', '')
+            df_col['Balance'] = df_col['Balance'].str.replace(',', '')
 
             df_col['Debit'] = df_col['Debit'].astype('float')
             df_col['Credit'] = df_col['Credit'].astype('float')
@@ -116,49 +119,51 @@ def csvPreProcessing():
             df_beta = df_col.copy()
 
             start_list = ('from', 'FROM', 'Transaction')
-            end_list   = ('SAR', 'USD')
+            end_list = ('SAR', 'USD')
 
             df_beta['no_preceders'] = df_beta.Transaction_Description.apply(
-                                    to_apply(remove_preceders, 
-                                            start_list)
-                                        )
+                to_apply(remove_preceders,
+                         start_list)
+            )
             df_beta['no_succeders'] = df_beta.Transaction_Description.apply(
-                                    to_apply(remove_succeeders, 
-                                            end_list)
-                                        )
+                to_apply(remove_succeeders,
+                         end_list)
+            )
             df_beta['Store_or_Item'] = df_beta.no_preceders.apply(
-                                    to_apply(remove_succeeders, 
-                                            end_list)
-                                        )
+                to_apply(remove_succeeders,
+                         end_list)
+            )
 
             df_beta = df_beta.where(pd.notnull(df_beta), None)
 
-            df_beta.drop(columns=['no_preceders', 'no_succeders', 'Transaction_Description'],axis=1, inplace=True)
+            df_beta.drop(columns=['no_preceders', 'no_succeders',
+                                  'Transaction_Description'], axis=1, inplace=True)
 
             # Preparing The needed CSV files
 
-            ## Transaction Dataset"""
+            # Transaction Dataset"""
             df_split = df_beta.copy()
-            df_Debit  = df_split.iloc[:,3:4]
-            df_Credit = df_split.iloc[:,4:5]
-            df_Item   = df_split.iloc[:,6:]
-            df_Date = df_split.iloc[:,0:1]
+            df_Debit = df_split.iloc[:, 3:4]
+            df_Credit = df_split.iloc[:, 4:5]
+            df_Item = df_split.iloc[:, 6:]
+            df_Date = df_split.iloc[:, 0:1]
 
-
-            df_Trans = pd.concat([df_Date, df_Debit, df_Credit, df_Item], axis=1)
+            df_Trans = pd.concat(
+                [df_Date, df_Debit, df_Credit, df_Item], axis=1)
 
             df_Spendings = df_Trans.query(' Debit > 0 ')
             df_Spendings.reset_index(drop=True, inplace=True)
-            df_Spendings.drop(columns=['Credit'],axis=1, inplace=True)
+            df_Spendings.drop(columns=['Credit'], axis=1, inplace=True)
 
             df_Spendings['Date'] = df_Spendings['Date'].astype(str)
             spend_dict = df_Spendings.to_dict('records')
 
-            #Makin Training Dataset
+            # Makin Training Dataset
             df_trainAI = df_Spendings.copy()
-            df_trainAI.drop(columns=['Store_or_Item'],axis=1, inplace=True)
-            df_trainAI.rename(columns={list(df_trainAI)[0]: 'ds',list(df_trainAI)[1]: 'y',}, inplace=True)
-            
+            df_trainAI.drop(columns=['Store_or_Item'], axis=1, inplace=True)
+            df_trainAI.rename(columns={list(df_trainAI)[0]: 'ds', list(
+                df_trainAI)[1]: 'y', }, inplace=True)
+
             Training_dataset = df_trainAI.copy()
 
             # with open("Spend.json", "w") as outfile:
@@ -166,29 +171,31 @@ def csvPreProcessing():
 
             df_Earnings = df_Trans.query(' Credit > 0')
             df_Earnings.reset_index(drop=True, inplace=True)
-            df_Earnings.drop(columns=['Debit'],axis=1, inplace=True)
+            df_Earnings.drop(columns=['Debit'], axis=1, inplace=True)
 
             df_Earnings['Date'] = df_Earnings['Date'].astype(str)
             earn_dict = df_Earnings.to_dict('records')
 
-            # with open("Earn.json", "w") as outfile: 
+            # with open("Earn.json", "w") as outfile:
             #     json.dump(earn_dict, outfile)
 
-            transaction_json_Data = jsonify({"income":earn_dict, "expense":spend_dict, "User_info":info_dict})
-    
+            transaction_json_Data = jsonify(
+                {"income": earn_dict, "expense": spend_dict, "User_info": info_dict})
+
             return transaction_json_Data
 
-        else: 
+        else:
             return "file not found"
     else:
         return "Could not handle request"
 
 
 def remove_preceders(start_list, string):
-        for word in start_list:
-            if word in string:
-                string = string[string.find(word) + len(word):]
-        return string
+    for word in start_list:
+        if word in string:
+            string = string[string.find(word) + len(word):]
+    return string
+
 
 def remove_succeeders(end_list, string):
     for word in end_list:
@@ -196,13 +203,13 @@ def remove_succeeders(end_list, string):
             string = string[:string.find(word)]
     return string
 
+
 def to_apply(func, words_to_check):
     return functools.partial(func, words_to_check)
 
 # TESTING ML MODEL
-@app.route("/spendingForecast", methods= ['GET', 'POST'])
+@app.route("/spendingForecast", methods=['GET', 'POST'])
 def spendingForecast():
-    
     """
     Param@: [transactionsJSONversion,  Forecastingtime(week, month, year)]
     """
@@ -210,11 +217,10 @@ def spendingForecast():
     if request.method == "POST":
         print("spendingForecast POST")
         mydata = request.get_json()
-        
+
         days = mydata["days"]
         transactions_dict = mydata["transactions"]
         print(transactions_dict)
-        
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         print(pd_train)
@@ -222,18 +228,17 @@ def spendingForecast():
 
         print(predictions)
         graph_img = graph_pre(predictions)
-        graph_img = getImageBytes( graph_img)
+        graph_img = getImageBytes(graph_img)
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
-        #jsonify({"message": , "iamge": image})
-        return jsonify({"message":"This how your spendings will look","image": graph_img})
+        # jsonify({"message": , "iamge": image})
+        return jsonify({"message": "This how your spendings will look", "image": graph_img})
     else:
         return "NOT POST"
 
 
-
-@app.route("/goalTracking", methods= ['GET', 'POST'])
+@app.route("/goalTracking", methods=['GET', 'POST'])
 def goalTracking():
     """
         Param@: [transactionsJSONversion,  goal(money user wants to save)]
@@ -241,7 +246,7 @@ def goalTracking():
     print("inside goal tracking function")
 
     if request.method == "POST":
-        
+
         # read the variables
         # pass the variables to prophet_model
         # retrieve required answer
@@ -252,23 +257,21 @@ def goalTracking():
     return "works"
 
 
-
-@app.route("/balanceForecast", methods= ['GET', 'POST'])
+@app.route("/balanceForecast", methods=['GET', 'POST'])
 def balanceForecast():
     """
         Param@: [transactionsJSONversion,  Forecastingtime(week, month, year)]
     """
     print("inside balance forecast function")
-    
+
     if request.method == "POST":
         print("spendingForecast POST")
         mydata = request.get_json()
-        
+
         days = mydata["days"]
         transactions_dict = mydata["transactions"]
         balance = mydata["balance"]
         print(transactions_dict)
-        
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         print(pd_train)
@@ -284,15 +287,14 @@ def balanceForecast():
         return "NOT POST"
 
 
-
-@app.route("/financialAdvising", methods= ['GET', 'POST'])
+@app.route("/financialAdvising", methods=['GET', 'POST'])
 def financialAdvising():
     """
         Param@: [transactionsJSONversion]
     """
     print("inside goal tracking function")
     if request.method == "POST":
-        
+
         # read the variables
         # pass the variables to prophet_model
         # retrieve required answer
@@ -303,7 +305,6 @@ def financialAdvising():
 
     return "works"
 
-from prophet.serialize import model_to_json, model_from_json
 
 def prophet_model(Train, Days):
 
@@ -317,59 +318,56 @@ def prophet_model(Train, Days):
     k_trans_pro = Train
     n = len(k_trans_pro)
     d = Days
-    pro_train_df = k_trans_pro[0:n-d]
-    pro_test_df_y = k_trans_pro[n-d:]
-    pro_test_df = k_trans_pro[n-d:].drop(['y'], axis = 1)
 
-    param_grid = {  
+    param_grid = {
         'changepoint_prior_scale': [0.001, 0.01, 0.1, 0.5],
         'seasonality_prior_scale': [0.01, 0.1, 1.0, 10.0],
     }
 
     # Generate all combinations of parameters
-    all_params = [dict(zip(param_grid.keys(), v)) for v in itertools.product(*param_grid.values())]
+    all_params = [dict(zip(param_grid.keys(), v))
+                  for v in itertools.product(*param_grid.values())]
     rmses = []  # Store the RMSEs for each params here
-
 
     # Use cross validation to evaluate all parameters
     for params in all_params:
-        m = Prophet(**params).fit(pro_train_df)  # Fit model with given params
-        df_cv = cross_validation(m, period='30 days', horizon='30 days', parallel="processes")
+        m = Prophet(**params).fit(k_trans_pro)  # Fit model with given params
+        df_cv = cross_validation(
+            m, period='30 days', horizon='30 days', parallel="processes")
         df_p = performance_metrics(df_cv, rolling_window=1)
         rmses.append(df_p['rmse'].values[0])
 
     # Find the best parameters
     tuning_results = pd.DataFrame(all_params)
     tuning_results['rmse'] = rmses
-    best_params = all_params[np.argmin(rmses)]
-    pro_model_tuned = Prophet(**best_params).fit(pro_train_df)
-    
+    best_params = all_params[np.argmin(rmses)]  # This is what we want
+    pro_model_tuned = Prophet(**best_params).fit(k_trans_pro)
+
     with open('serialized_model.json', 'w') as fout:
         json.dump(model_to_json(pro_model_tuned), fout)  # Save model
-    ## Here you find the predictions
-    
-
-    ###
-    # HERE, convert the precitions to a json doc that looks like this
-    # { "predictions": [ {"ds": value, "yhat":value}, {"ds": value, "yhat":value}, {"ds": value, "yhat":value}, ]}
-    # just get a list from your dataframe.
-    # the you can just do this: jsonify({"predictions": yourlist})
 
     return None
+
 
 def predict(k_trans_pro, days):
     with open('serialized_model.json', 'r') as fin:
         pro_model_tuned = model_from_json(json.load(fin))  # Load model
 
-    n = len(k_trans_pro)
     d = days
-    pro_train_df = k_trans_pro[0:n-d]
-    pro_test_df_y = k_trans_pro[n-d:]
-    pro_test_df = k_trans_pro[n-d:].drop(['y'], axis = 1)
 
-    forecast_pro = pro_model_tuned.predict(pro_test_df)
-    predictions = forecast_pro[['ds', 'yhat']].head()
+    sdate = k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1)
+    edate = sdate + timedelta(days=d)
+
+    pred_dates = pd.date_range(sdate, edate, freq='d')
+    pred_dates = pred_dates.to_frame(index=0)
+
+    pred_dates.columns = ['ds']
+
+    forecast = pro_model_tuned.predict(pred_dates)
+
+    predictions = forecast[['ds', 'yhat']]
     return predictions
+
 
 def graph_pre(pred_dataset):
     df_train = pd.read_csv(pred_dataset, index_col=0)
@@ -384,9 +382,10 @@ def graph_pre(pred_dataset):
     x = df_train.groupby(["year", "month", "day"])["y"].mean()
     df_wide = x.unstack()
 
-    sns.set(rc={'figure.figsize':(15,9)})
-    sns_plot=sns.barplot(x = 'day', y='y', data = df_train);
+    sns.set(rc={'figure.figsize': (15, 9)})
+    sns_plot = sns.barplot(x='day', y='y', data=df_train)
     return sns_plot.figure.savefig('output.png')
+
 
 def getImageBytes(filePath):
     img = Image.open(filePath, mode='r')
@@ -405,5 +404,6 @@ def userinfo():
 def page_not_found(e):
     return {'message': "ERROR 404"}, 404
 
+
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)
