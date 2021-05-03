@@ -358,7 +358,6 @@ def predict(k_trans_pro, days):
     with open('serialized_model.json', 'r') as fin:
         pro_model_tuned = model_from_json(json.load(fin))  # Load model
 
-    k_trans_pro = Training_dataset
     n = len(k_trans_pro)
     d = days
     pro_train_df = k_trans_pro[0:n-d]
