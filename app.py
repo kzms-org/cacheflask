@@ -334,7 +334,7 @@ def prophet_model(pd_train, days):
     tuning_results['rmse'] = rmses
     best_params = all_params[np.argmin(rmses)]
     pro_model_tuned = Prophet(**best_params).fit(pro_train_df)
-    forecast_pro = pro_model.predict(pro_test_df)
+    forecast_pro = pro_model.predict(pro_test_df);
 
     ## Here you find the predictions
     predictions = forecast[['ds', 'yhat']].head()
