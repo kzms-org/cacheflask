@@ -208,20 +208,16 @@ def spendingForecast():
     if request.method == "POST":
         print("spendingForecast POST")
         mydata = request.get_json()
+        
         days = mydata["days"]
         transactions_dict = mydata["transactions"]
-        print()
-        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-        print(transactions_dict["ds"])
-        print(transactions_dict["y"])
-        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-        print()
-        print()
-        #print(transactions_dict)
+        
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         print(pd_train)
-        # read the variables
+        predictions = prophet_model(pd_train, days)
+
+        print(predictions)
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
@@ -292,65 +288,52 @@ def financialAdvising():
 
 
 
-def prophet_model():
+def prophet_model(pd_train, days):
     
-    print("inside prophetModel")
 
-    if request.method == "POST":        
-        print("inside post request ML MODEL PROPHET")
-        # make sure to get the input here, then uncomment the rest
-        ###
-        # HERE, convert the  json that looks like this
-        # {"income":[{income fields},{},{}], "expense":spend_dict}
-        # to a dataframe
-        # the you can just do this: jsonify({"predictions": yourlist})
-        ###
-        k_trans_pro = null
-        n = len(k_trans_pro)
-        d = 10
-        pro_train_df = k_trans_pro[0:n-d]
-        pro_test_df_y = k_trans_pro[n-d:]
-        pro_test_df = k_trans_pro[n-d:].drop(['y'], axis = 1)
+    k_trans_pro = pd_train
+    n = len(k_trans_pro)
+    d = days
+    pro_train_df = k_trans_pro[0:n-d]
+    pro_test_df_y = k_trans_pro[n-d:]
+    pro_test_df = k_trans_pro[n-d:].drop(['y'], axis = 1)
 
-        param_grid = {  
-            'changepoint_prior_scale': [0.001, 0.01, 0.1, 0.5],
-            'seasonality_prior_scale': [0.01, 0.1, 1.0, 10.0],
-        }
+    param_grid = {  
+        'changepoint_prior_scale': [0.001, 0.01, 0.1, 0.5],
+        'seasonality_prior_scale': [0.01, 0.1, 1.0, 10.0],
+    }
 
-        # Generate all combinations of parameters
-        all_params = [dict(zip(param_grid.keys(), v)) for v in itertools.product(*param_grid.values())]
-        rmses = []  # Store the RMSEs for each params here
+    # Generate all combinations of parameters
+    all_params = [dict(zip(param_grid.keys(), v)) for v in itertools.product(*param_grid.values())]
+    rmses = []  # Store the RMSEs for each params here
 
 
-        # Use cross validation to evaluate all parameters
-        for params in all_params:
-            m = Prophet(**params).fit(pro_train_df)  # Fit model with given params
-            df_cv = cross_validation(m, period='30 days', horizon='30 days', parallel="processes")
-            df_p = performance_metrics(df_cv, rolling_window=1)
-            rmses.append(df_p['rmse'].values[0])
+    # Use cross validation to evaluate all parameters
+    for params in all_params:
+        m = Prophet(**params).fit(pro_train_df)  # Fit model with given params
+        df_cv = cross_validation(m, period='30 days', horizon='30 days', parallel="processes")
+        df_p = performance_metrics(df_cv, rolling_window=1)
+        rmses.append(df_p['rmse'].values[0])
 
-        # Find the best parameters
-        tuning_results = pd.DataFrame(all_params)
-        tuning_results['rmse'] = rmses
-        best_params = all_params[np.argmin(rmses)]
-        pro_model_tuned = Prophet(**best_params).fit(pro_train_df)
-        forecast_pro = pro_model.predict(pro_test_df)
-        
-        ## Here you find the predictions
-        predictions = forecast[['ds', 'yhat']].head()
+    # Find the best parameters
+    tuning_results = pd.DataFrame(all_params)
+    tuning_results['rmse'] = rmses
+    best_params = all_params[np.argmin(rmses)]
+    pro_model_tuned = Prophet(**best_params).fit(pro_train_df)
+    forecast_pro = pro_model.predict(pro_test_df)
 
-        ###
-        # HERE, convert the precitions to a json doc that looks like this
-        # { "predictions": [ {"ds": value, "yhat":value}, {"ds": value, "yhat":value}, {"ds": value, "yhat":value}, ]}
-        # just get a list from your dataframe.
-        # the you can just do this: jsonify({"predictions": yourlist})
-        ###
+    ## Here you find the predictions
+    predictions = forecast[['ds', 'yhat']].head()
 
-        return "this function works"
-    else:
-        return "Could not handle the request"
+    ###
+    # HERE, convert the precitions to a json doc that looks like this
+    # { "predictions": [ {"ds": value, "yhat":value}, {"ds": value, "yhat":value}, {"ds": value, "yhat":value}, ]}
+    # just get a list from your dataframe.
+    # the you can just do this: jsonify({"predictions": yourlist})
+    ###
+
     
-    return "Nothing to see here boi"
+    return predictions
 
 
 
