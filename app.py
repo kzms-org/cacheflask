@@ -217,7 +217,7 @@ def spendingForecast():
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         print(pd_train)
-        predictions = prophet_model(pd_train, days)
+        predictions = predict(pd_train, days)
 
         print(predictions)
         # pass the variables to prophet_model
@@ -269,7 +269,7 @@ def balanceForecast():
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         print(pd_train)
-        predictions = prophet_model(pd_train, days)
+        predictions = predict(pd_train, days)
 
         print(predictions)
         # pass the variables to prophet_model
@@ -354,18 +354,20 @@ def prophet_model(Train, Days):
 
     return None
 
-with open('serialized_model.json', 'r') as fin:
-    pro_model_tuned = model_from_json(json.load(fin))  # Load model
+def predict(k_trans_pro, days):
+    with open('serialized_model.json', 'r') as fin:
+        pro_model_tuned = model_from_json(json.load(fin))  # Load model
 
-k_trans_pro = Training_dataset
-n = len(k_trans_pro)
-d = 10
-pro_train_df = k_trans_pro[0:n-d]
-pro_test_df_y = k_trans_pro[n-d:]
-pro_test_df = k_trans_pro[n-d:].drop(['y'], axis = 1)
+    k_trans_pro = Training_dataset
+    n = len(k_trans_pro)
+    d = days
+    pro_train_df = k_trans_pro[0:n-d]
+    pro_test_df_y = k_trans_pro[n-d:]
+    pro_test_df = k_trans_pro[n-d:].drop(['y'], axis = 1)
 
-forecast_pro = pro_model_tuned.predict(pro_test_df)
-predictions = forecast_pro[['ds', 'yhat']].head()
+    forecast_pro = pro_model_tuned.predict(pro_test_df)
+    predictions = forecast_pro[['ds', 'yhat']].head()
+    return predictions
 
 # get user info (TEST)
 @app.route('/api/userinfo')
