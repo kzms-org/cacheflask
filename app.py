@@ -255,18 +255,29 @@ def balanceForecast():
     """
         Param@: [transactionsJSONversion,  Forecastingtime(week, month, year)]
     """
-    print("inside goal tracking function")
+    print("inside balance forecast function")
     
     if request.method == "POST":
+        print("spendingForecast POST")
+        mydata = request.get_json()
         
-        # read the variables
+        days = mydata["days"]
+        transactions_dict = mydata["transactions"]
+        print(transactions_dict)
+        
+
+        pd_train = pd.DataFrame.from_dict(transactions_dict)
+        print(pd_train)
+        predictions = prophet_model(pd_train, days)
+
+        print(predictions)
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
 
-    # call to prophet_model()
-        return "works POST"
-    return "works"
+        return "What you need to do is stop spending money on Genshin Impact.."
+    else:
+        return "NOT POST"
 
 
 
