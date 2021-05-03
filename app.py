@@ -221,7 +221,8 @@ def spendingForecast():
         predictions = predict(pd_train, days)
 
         print(predictions)
-        graph_img = getImageBytes( graph_pre(predictions))
+        graph_img = graph_pre(predictions)
+        graph_img = getImageBytes( graph_img)
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
