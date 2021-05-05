@@ -295,8 +295,8 @@ def balanceForecast():
         # send the answer back
 
         return jsonify({"message": "What you need to do is stop spending money on Genshin Impact.."}
-    else:
-        return "NOT POST"
+
+    return jsonify({"message": "Something went wrong, try again later.."}
 
 
 @app.route("/financialAdvising", methods=['GET', 'POST'])
