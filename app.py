@@ -223,9 +223,9 @@ def spendingForecast():
         transactions_dict = mydata["transactions"]
         print(transactions_dict)
 
-        pd_train = pd.DataFrame.from_dict(transactions_dict)
-        print(pd_train)
-        predictions = predict(pd_train, days)
+        # pd_train = pd.DataFrame.from_dict(transactions_dict)
+        # print(pd_train)
+        # predictions = predict(pd_train, days)
 
         # print(predictions)
         # graph_img = graph_pre(predictions)
@@ -352,8 +352,8 @@ def predict(k_trans_pro, days):
     with open('serialized_model.json', 'r') as fin:
         pro_model_tuned = model_from_json(json.load(fin))  # Load model
 
-    sdate = days
-
+    d = days
+    k_trans_pro["ds"] = k_trans_pro['ds'].astype('str')
     sdate = k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1)
     edate = sdate + timedelta(days=d)
 
