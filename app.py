@@ -352,7 +352,7 @@ def predict(k_trans_pro, days):
     with open('serialized_model.json', 'r') as fin:
         pro_model_tuned = model_from_json(json.load(fin))  # Load model
 
-    d = days
+    sdate = days
 
     sdate = k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1)
     edate = sdate + timedelta(days=d)
