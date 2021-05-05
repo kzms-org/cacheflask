@@ -227,14 +227,12 @@ def spendingForecast():
         print(pd_train)
         predictions = predict(pd_train, days)
 
-        print(predictions)
-        graph_img = graph_pre(predictions)
-        graph_img = getImageBytes(graph_img)
-        # pass the variables to prophet_model
-        # retrieve required answer
-        # send the answer back
+        # print(predictions)
+        # graph_img = graph_pre(predictions)
+        # graph_img = getImageBytes(graph_img)
+        img = cv2.imread("output.png")
         # jsonify({"message": , "iamge": image})
-        return jsonify({"message": "This how your spendings will look", "image": graph_img})
+        return jsonify({"message": "This how your spendings will look", "image": img})
     else:
         return "NOT POST"
 
