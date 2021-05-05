@@ -234,7 +234,7 @@ def spendingForecast():
         img = cv2.imread("output.png")
         img_byte_array = getImageBytes(img)
         # jsonify({"message": , "iamge": image})
-        return jsonify({"message": "This how your spendings will look", "image": img_byte_array})
+        return jsonify({"message": "This how your spendings will look", "image": img_byte_array.tolist()})
     else:
         return "NOT POST"
 
@@ -408,7 +408,7 @@ def getImageBytes(img):
     # byte_im = im_buf_arr.tobytes()
     return im_buf_arr
 
-    
+
 # get user info (TEST)
 @app.route('/api/userinfo')
 def userinfo():
