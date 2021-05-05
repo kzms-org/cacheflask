@@ -8,7 +8,7 @@ Original file is located at
 # imports
 
 from prophet.serialize import model_to_json, model_from_json
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import json
 import pandas as pd
 import numpy as np
