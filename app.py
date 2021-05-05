@@ -406,6 +406,7 @@ def graph_pre(pred_dataset):
 def getImageBytes(img):
     is_success, im_buf_arr = cv2.imencode(".png", img)
     # byte_im = im_buf_arr.tobytes()
+    print("this is encoded img", im_buf_arr)
     return im_buf_arr
 
 
