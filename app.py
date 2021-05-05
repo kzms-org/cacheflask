@@ -355,7 +355,7 @@ def predict(k_trans_pro, days):
 
     d = days
     k_trans_pro["ds"] = k_trans_pro['ds'].astype(str)
-    sdate = k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1)
+    sdate = (k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1))
     edate = sdate + timedelta(days=d)
 
     pred_dates = pd.date_range(sdate, edate, freq='d')
