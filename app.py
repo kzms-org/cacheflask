@@ -388,11 +388,10 @@ def graph_pre(pred_dataset):
 
 
 def getImageBytes(img):
-    imgByteArr = io.BytesIO()
-    imgByteArr = imgByteArr.getvalue()
-    imgByteArr = base64.encodebytes(imgByteArr).decode('ascii')
+    is_success, im_buf_arr = cv2.imencode(".png", img)
+    byte_im = im_buf_arr.tobytes()
 
-    return imgByteArr
+    return byte_im
 # get user info (TEST)
 @app.route('/api/userinfo')
 def userinfo():
