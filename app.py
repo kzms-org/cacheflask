@@ -265,8 +265,8 @@ def goalTracking():
 
         return jsonify({"message": "Wow, very nice goal you got there"})
     # call to prophet_model()
-
-    return "works"
+    else:
+        return "NOT POST"
 
 
 @app.route("/balanceForecast", methods=['GET', 'POST'])
@@ -313,9 +313,8 @@ def financialAdvising():
         # send the answer back
 
         return jsonify({"message": "you have a lot of work to do. For starters, what you need to do is stop spending money on Genshin Impact.."}
-    # call to prophet_model()
-
-    return "works"
+    else:
+        return "NOT POST"
 
 
 def prophet_model(Train, Days):
