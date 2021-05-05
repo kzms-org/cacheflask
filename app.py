@@ -23,6 +23,7 @@ from prophet.diagnostics import performance_metrics
 from prophet.diagnostics import cross_validation
 from flask import Flask, request, render_template, jsonify
 import seaborn as sns
+import cv2
 import requests
 
 

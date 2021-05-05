@@ -7,4 +7,5 @@ fbprophet==0.7.1
 prophet==1.0.1
 ipython==7.22.0
 seaborn==0.11.1
+opencv-python==4.2.0.34
 gunicorn
