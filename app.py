@@ -387,8 +387,7 @@ def graph_pre(pred_dataset):
     return sns_plot.figure.savefig('output.png')
 
 
-def getImageBytes(filePath):
-    img = Image.open(filePath, mode='r')
+def getImageBytes(img):
     imgByteArr = io.BytesIO()
     imgByteArr = imgByteArr.getvalue()
     imgByteArr = base64.encodebytes(imgByteArr).decode('ascii')
