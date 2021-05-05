@@ -231,7 +231,7 @@ def spendingForecast():
         # graph_img = graph_pre(predictions)
         # graph_img = getImageBytes(graph_img)
         img = cv2.imread("output.png")
-        img_byte_array = imgByteArr(img)
+        img_byte_array = getImageBytes(img)
         # jsonify({"message": , "iamge": image})
         return jsonify({"message": "This how your spendings will look", "image": img_byte_array})
     else:
