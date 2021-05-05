@@ -224,7 +224,6 @@ def spendingForecast():
         print(transactions_dict)
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
-        print(pd_train)
         predictions = predict(pd_train, days)
 
         print(predictions)
@@ -357,7 +356,10 @@ def predict(k_trans_pro, days):
     #k_trans_pro["ds"] = k_trans_pro['ds'].astype(str)
     print(type(k_trans_pro.iloc[len(k_trans_pro)-1]['ds']))
     print(type(timedelta(days=1)))
-    sdate = (k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1))
+    k_trans_pro['ds'] = datetime.strptime(k_trans_pro['ds'], '%y-%m-%d %H:%M:%S')
+    print(type(k_trans_pro['ds']))
+    
+    sdate = k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1)
     edate = sdate + timedelta(days=d)
 
     pred_dates = pd.date_range(sdate, edate, freq='d')
