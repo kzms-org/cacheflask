@@ -238,7 +238,7 @@ def spendingForecast():
         # jsonify({"message": , "iamge": image})
         return jsonify({"message": "This how your spendings will look", "image": img_byte_array.tolist()})
     else:
-        return "NOT POST"
+        return jsonify({"message": "NO POST"})
 
 
 @app.route("/goalTracking", methods=['GET', 'POST'])
@@ -266,13 +266,13 @@ def goalTracking():
         return jsonify({"message": "Wow, very nice goal you got there"})
     # call to prophet_model()
     else:
-        return "NOT POST"
+        return jsonify({"message": "SOMETHING WENT WRONG!"})
 
 
 @app.route("/balanceForecast", methods=['GET', 'POST'])
 def balanceForecast():
     """
-        Param@: [transactionsJSONversion,  Forecastingtime(week, month, year)]
+    Param@: [transactionsJSONversion,  Forecastingtime(week, month, year)]
     """
     print("inside balance forecast function")
 
@@ -287,16 +287,12 @@ def balanceForecast():
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         print(pd_train)
-        # predictions = predict(pd_train, days)
 
-        # print(predictions)
-        # pass the variables to prophet_model
-        # retrieve required answer
-        # send the answer back
-
-        return jsonify({"message": "What you need to do is stop spending money on Genshin Impact.."}
-
-    return jsonify({"message": "Something went wrong, try again later.."}
+        return jsonify({"message": "What you need to do is stop spending money on Genshin Impact.."})
+    else:
+        return jsonify({"message": "Something went wrong, try again later.."})
+    
+    return jsonify({"message": "Something went wrong, try again later.."})
 
 
 @app.route("/financialAdvising", methods=['GET', 'POST'])
@@ -312,9 +308,11 @@ def financialAdvising():
         # retrieve required answer
         # send the answer back
 
-        return jsonify({"message": "you have a lot of work to do. For starters, what you need to do is stop spending money on Genshin Impact.."}
+        return jsonify({"message": "you have a lot of work to do. For starters, what you need to do is stop spending money on Genshin Impact.."})
     else:
-        return "NOT POST"
+        return jsonify({"message": "Something went wrong, try again later.."})
+    
+    return jsonify({"message": "Something went wrong, try again later.."})
 
 
 def prophet_model(Train, Days):
