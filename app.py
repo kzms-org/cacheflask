@@ -263,7 +263,7 @@ def goalTracking():
 
         # YOUR CODE
 
-        return "works POST"
+        return jsonify({"message": "Wow, very nice goal you got there"})
     # call to prophet_model()
 
     return "works"
@@ -294,7 +294,7 @@ def balanceForecast():
         # retrieve required answer
         # send the answer back
 
-        return "What you need to do is stop spending money on Genshin Impact.."
+        return jsonify({"message": "What you need to do is stop spending money on Genshin Impact.."}
     else:
         return "NOT POST"
 
@@ -312,7 +312,7 @@ def financialAdvising():
         # retrieve required answer
         # send the answer back
 
-        return "works POST"
+        return jsonify({"message": "you have a lot of work to do. For starters, what you need to do is stop spending money on Genshin Impact.."}
     # call to prophet_model()
 
     return "works"
