@@ -274,9 +274,9 @@ def balanceForecast():
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         print(pd_train)
-        predictions = predict(pd_train, days)
+        # predictions = predict(pd_train, days)
 
-        print(predictions)
+        # print(predictions)
         # pass the variables to prophet_model
         # retrieve required answer
         # send the answer back
