@@ -247,10 +247,19 @@ def goalTracking():
 
     if request.method == "POST":
 
-        # read the variables
-        # pass the variables to prophet_model
-        # retrieve required answer
-        # send the answer back
+        mydata = request.get_json()
+
+        balance = mydata["balance"]
+        goalDate = mydata["goalDate"]
+        savingAmount = mydata["savingAmount"]
+        transactions_dict = mydata["transactions"]
+        print(transactions_dict)
+
+        pd_train = pd.DataFrame.from_dict(transactions_dict)
+        predictions = predict(pd_train, days)
+
+        # YOUR CODE
+
         return "works POST"
     # call to prophet_model()
 
@@ -357,7 +366,7 @@ def predict(k_trans_pro, days):
     #k_trans_pro["ds"] = k_trans_pro['ds'].astype(str)
     print(type(k_trans_pro.iloc[len(k_trans_pro)-1]['ds']))
     print(type(timedelta(days=1)))
-    k_trans_pro['ds'] = datetime.strptime(k_trans_pro['ds'], '%y-%m-%d %H:%M:%S')
+    k_trans_pro['ds'] = datetime.datetime.strptime(k_trans_pro['ds'], '%y-%m-%d %H:%M:%S')
     print(type(k_trans_pro['ds']))
     
     sdate = k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1)
