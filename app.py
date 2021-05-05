@@ -233,6 +233,8 @@ def spendingForecast():
         # graph_img = getImageBytes(graph_img)
         img = cv2.imread("output.png")
         img_byte_array = getImageBytes(img)
+        # flatten this img
+        img_byte_array = np.ndarray.flatten(img_byte_array)
         # jsonify({"message": , "iamge": image})
         return jsonify({"message": "This how your spendings will look", "image": img_byte_array.tolist()})
     else:
@@ -406,7 +408,6 @@ def graph_pre(pred_dataset):
 def getImageBytes(img):
     is_success, im_buf_arr = cv2.imencode(".png", img)
     # byte_im = im_buf_arr.tobytes()
-    print("this is encoded img", im_buf_arr)
     return im_buf_arr
 
 
