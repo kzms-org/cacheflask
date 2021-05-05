@@ -354,7 +354,9 @@ def predict(k_trans_pro, days):
         pro_model_tuned = model_from_json(json.load(fin))  # Load model
 
     d = days
-    k_trans_pro["ds"] = k_trans_pro['ds'].astype(str)
+    #k_trans_pro["ds"] = k_trans_pro['ds'].astype(str)
+    print(type(k_trans_pro.iloc[len(k_trans_pro)-1]['ds']))
+    print(type(timedelta(days=1)))
     sdate = (k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1))
     edate = sdate + timedelta(days=d)
 
