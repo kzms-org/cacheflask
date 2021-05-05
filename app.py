@@ -366,7 +366,8 @@ def predict(k_trans_pro, days):
     #k_trans_pro["ds"] = k_trans_pro['ds'].astype(str)
     print(type(k_trans_pro.iloc[len(k_trans_pro)-1]['ds']))
     print(type(timedelta(days=1)))
-    k_trans_pro['ds'] = datetime.datetime.strptime(k_trans_pro['ds'], '%y-%m-%d %H:%M:%S')
+    #k_trans_pro['ds'] = datetime.datetime.strptime(k_trans_pro['ds'], '%y-%m-%d %H:%M:%S')
+    k_trans_pro['ds'] = pd.to_datetime(k_trans_pro['ds'])
     print(type(k_trans_pro['ds']))
     
     sdate = k_trans_pro.iloc[len(k_trans_pro)-1]['ds'] + timedelta(days=1)
