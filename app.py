@@ -24,6 +24,7 @@ from prophet.diagnostics import cross_validation
 from flask import Flask, request, render_template, jsonify
 import seaborn as sns
 import cv2
+import base64
 import datetime
 import requests
 
@@ -404,9 +405,10 @@ def graph_pre(pred_dataset):
 
 def getImageBytes(img):
     is_success, im_buf_arr = cv2.imencode(".png", img)
-    byte_im = im_buf_arr.tobytes()
-    print(byte_im)
-    return byte_im
+    # byte_im = im_buf_arr.tobytes()
+    return im_buf_arr
+
+    
 # get user info (TEST)
 @app.route('/api/userinfo')
 def userinfo():
