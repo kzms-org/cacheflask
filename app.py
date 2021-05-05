@@ -223,11 +223,11 @@ def spendingForecast():
         transactions_dict = mydata["transactions"]
         print(transactions_dict)
 
-        # pd_train = pd.DataFrame.from_dict(transactions_dict)
-        # print(pd_train)
-        # predictions = predict(pd_train, days)
+        pd_train = pd.DataFrame.from_dict(transactions_dict)
+        print(pd_train)
+        predictions = predict(pd_train, days)
 
-        # print(predictions)
+        print(predictions)
         # graph_img = graph_pre(predictions)
         # graph_img = getImageBytes(graph_img)
         img = cv2.imread("output.png")
@@ -390,7 +390,7 @@ def graph_pre(pred_dataset):
 def getImageBytes(img):
     is_success, im_buf_arr = cv2.imencode(".png", img)
     byte_im = im_buf_arr.tobytes()
-
+    print(byte_im)
     return byte_im
 # get user info (TEST)
 @app.route('/api/userinfo')
