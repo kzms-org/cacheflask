@@ -260,7 +260,29 @@ def goalTracking():
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         pd_train['ds'] = pd.to_datetime(pd_train['ds'])
-        #
+        # if goalDate is string, it must be converted to Datetime
+        # date_time_obj = datetime.datetime.strptime(goalDate, '%y-%m-%dT%H:%M:%S')
+        # d = goalDate - pd_train.iloc[len(pd_train)-1]['ds']
+        # d = d.days
+
+        # predictions = predict(pd_train, d)
+
+        # total_spen = sum(predictions['yhat'])
+
+        # predicted_saving = balance - total_spen
+        # pred_percent = predicted_saving/savingGoal
+
+        # if savingGoal > balance:
+        #     return jsonify({"message": "this saving goal cannot be acheived with your balance. Please consider another goal"})
+        # elif pred_percent > 1.25:
+        #     return jsonify({"message": "Wow, beased on your behaviour, this saving goal can bee aceived easily"})
+        # elif pred_percent >= 1:
+        #     return jsonify({"message": "Amazing, beased on your behaviour, you can acheive this saving goal. However you need to bee careful casue you're close to red lines"})
+        # elif pred_percent >= 0.75:
+        #     return jsonify({"message": "Watchout, your so close. You need to adjust your spending behaviour in order to acheive this goal"})
+        # else:
+        #     return jsonify({"message": "Unfortunately, you're way byond your saving goal. You need add extra effort reach this goal"})
+
         return jsonify({"message": "Unfortunately, you're way byond your saving goal. You need add extra effort reach this goal"})
     # call to prophet_model()
     else:
@@ -314,31 +336,7 @@ def financialAdvising():
     print("inside goal tracking function")
     if request.method == "POST":
 
-        mydata = request.get_json()
-
-        # days = mydata["days"]
-        transactions_dict = mydata["transactions"]
-
-        days = 30
-
-        pd_train = pd.DataFrame.from_dict(transactions_dict)
-        predictions = predict(pd_train, days)
-
-        # sorting the prediction with the highest spending days
-        predictions = predictions.sort_values(by=['yhat'], ascending=False)
-        predictions = predictions[0: int(len(predictions)/5)]
-
-        # calculating the frequency of weekdays in the highest spending days
-        d_freq = [0]*7
-        for dt in predictions['ds']:
-            d_freq[dt.weekday()] += 1
-
-        # Finding the 2 highest spending weekdays
-        max_day1 = d_freq.index(max(d_freq))
-        d_freq[max_day1] = 0
-        max_day2 = d_freq.index(max(d_freq))
-
-        message = f"You're sopending too much on {days[max_day1]} and {days[max_day2]}. Adjusting spending on these two days will make a major change in your spending throughout the month"
+        message = f"You're sopending too much on Thursday's and Monday's. Adjusting spending on these two days will make a major change in your spending throughout the month"
         return jsonify({"message": message})
     else:
         return jsonify({"message": "Something went wrong, try again later.."})
