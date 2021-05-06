@@ -315,11 +315,11 @@ def balanceForecast():
         end_balance = balance - total_spen
 
         if d == 7:
-            return jsonify({"message": "Based on your spending behaviour, your balance is expected to be ", end_balance:" at the end of the week"})
+            return jsonify({"message": f"Based on your spending behaviour, your balance is expected to be {end_balance} at the end of the week"})
         elif d == 30:
-            return jsonify({"message": "Based on your spending behaviour, your balance is expected to be " , end_balance:" at the end of the month"})
+            return jsonify({"message": f"Based on your spending behaviour, your balance is expected to be {end_balance} at the end of the month"})
         else:
-            return jsonify({"message": "Based on your spending behaviour, your balance is expected to be " , end_balance:" at that time"})
+            return jsonify({"message": f"Based on your spending behaviour, your balance is expected to be {end_balance} at that time"})
 
         return jsonify({"message": "What you need to do is stop spending money on Genshin Impact.." })
     else:
@@ -360,7 +360,8 @@ def financialAdvising():
         d_freq[max_day1] = 0
         max_day2 = d_freq.index(max(d_freq))
 
-        return jsonify({"message": "You're sopending too much on "+days[max_day1]+" And "+days[max_day2]+". Adjusting spending on this two days will make a major change in your spending throughout the month"})
+        message = f"You're sopending too much on {days[max_day1]} and {days[max_day2]}. Adjusting spending on these two days will make a major change in your spending throughout the month"
+        return jsonify({"message": message})
     else:
         return jsonify({"message": "Something went wrong, try again later.."})
 
