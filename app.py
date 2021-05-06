@@ -261,8 +261,8 @@ def goalTracking():
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         pd_train['ds'] = pd.to_datetime(pd_train['ds'])
         # if goalDate is string, it must be converted to Datetime
-
-        d = goalDate.to_datetime() - pd_train.iloc[len(pd_train)-1]['ds']
+        date_time_obj = datetime.datetime.strptime(goalDate, '%y-%m-%d %H:%M:%S')
+        d = goalDate - pd_train.iloc[len(pd_train)-1]['ds']
         d = d.days
 
         predictions = predict(pd_train, d)
