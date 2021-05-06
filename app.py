@@ -259,10 +259,10 @@ def goalTracking():
         print(transactions_dict)
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
-        pd_train['ds'] = pd.to_datetime(k_trans_pro['ds'])
+        pd_train['ds'] = pd.to_datetime(pd_train['ds'])
         # if goalDate is string, it must be converted to Datetime
 
-        d = goalDate - pd_train.iloc[len(k_trans_pro)-1]['ds']
+        d = goalDate - pd_train.iloc[len(pd_train)-1]['ds']
         d = d.days
 
         predictions = predict(pd_train, d)
@@ -314,9 +314,9 @@ def balanceForecast():
 
         end_balance = balance - total_spen
 
-        if d == 7:
+        if days == 7:
             return jsonify({"message": f"Based on your spending behaviour, your balance is expected to be {end_balance} at the end of the week"})
-        elif d == 30:
+        elif days == 30:
             return jsonify({"message": f"Based on your spending behaviour, your balance is expected to be {end_balance} at the end of the month"})
         else:
             return jsonify({"message": f"Based on your spending behaviour, your balance is expected to be {end_balance} at that time"})
