@@ -308,7 +308,7 @@ def balanceForecast():
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         print(pd_train)
 
-        predictions = predict(pd_train, d)
+        predictions = predict(pd_train, days)
 
         total_spen = sum(predictions['yhat'])
 
@@ -352,7 +352,7 @@ def financialAdvising():
 
         # calculating the frequency of weekdays in the highest spending days
         d_freq = [0]*7
-        for dt in forecast_pro['ds']:
+        for dt in predictions['ds']:
             d_freq[dt.weekday()] += 1
 
         # Finding the 2 highest spending weekdays
