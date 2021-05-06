@@ -315,11 +315,11 @@ def balanceForecast():
         end_balance = balance - total_spen
 
         if d == 7:
-            return jsonify({"message": "Based on your spending behaviour, your balance is expected to be ", end_balance+" at the end of the week"})
+            return jsonify({"message": "Based on your spending behaviour, your balance is expected to be ", end_balance:" at the end of the week"})
         elif d == 30:
-            return jsonify({"message": "Based on your spending behaviour, your balance is expected to be " , end_balance+" at the end of the month"})
+            return jsonify({"message": "Based on your spending behaviour, your balance is expected to be " , end_balance:" at the end of the month"})
         else:
-            return jsonify({"message": "Based on your spending behaviour, your balance is expected to be " , end_balance+" at that time"})
+            return jsonify({"message": "Based on your spending behaviour, your balance is expected to be " , end_balance:" at that time"})
 
         return jsonify({"message": "What you need to do is stop spending money on Genshin Impact.." })
     else:
