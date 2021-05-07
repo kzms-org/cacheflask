@@ -81,6 +81,7 @@ def csvPreProcessing():
                                   'Unnamed: 5', 'Unnamed: 6'], axis=1, inplace=True)
             df_info.reset_index(drop=True, inplace=True)
             df_user_info = pd.concat([df_info, df_latest_balance], axis=1)
+            df_user_info['Balance'] = df_user_info['Balance'].str.replace(',','')
 
             info_dict = df_user_info.to_dict('records')
 
@@ -260,7 +261,7 @@ def goalTracking():
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         pd_train['ds'] = pd.to_datetime(pd_train['ds'])
-        if goalDate is string, it must be converted to Datetime
+        #if goalDate is string, it must be converted to Datetime
         date_time_obj = datetime.datetime.strptime(goalDate, '%y-%m-%d %H:%M:%S')
         d = goalDate - pd_train.iloc[len(pd_train)-1]['ds']
         d = d.days
