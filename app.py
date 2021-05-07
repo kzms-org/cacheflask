@@ -272,6 +272,10 @@ def goalTracking():
 
         predicted_saving = balance - total_spen
         pred_percent = predicted_saving/savingGoal
+        print(balance+"balance")
+        print(total_spen+ "total_spent")
+        print(predicted_saving + "predicted saving")
+        print(pred_percent+"prediction percent")
 
         if savingGoal > balance:
             return jsonify({"message": "this saving goal cannot be acheived with your balance. Please consider another goal"})
