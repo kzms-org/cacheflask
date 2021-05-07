@@ -262,7 +262,7 @@ def goalTracking():
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         pd_train['ds'] = pd.to_datetime(pd_train['ds'])
         #if goalDate is string, it must be converted to Datetime
-        date_time_obj = datetime.datetime.strptime(goalDate, '%y-%m-%d %H:%M:%S')
+        date_time_obj = datetime.datetime.strptime(goalDate, "%Y-%m-%d %H:%M:%S")
         d = goalDate - pd_train.iloc[len(pd_train)-1]['ds']
         d = d.days
 
@@ -415,7 +415,7 @@ def predict(k_trans_pro, days):
     #k_trans_pro["ds"] = k_trans_pro['ds'].astype(str)
     print(type(k_trans_pro.iloc[len(k_trans_pro)-1]['ds']))
     print(type(timedelta(days=1)))
-    #k_trans_pro['ds'] = datetime.datetime.strptime(k_trans_pro['ds'], '%y-%m-%d %H:%M:%S')
+    #k_trans_pro['ds'] = datetime.datetime.strptime(k_trans_pro['ds'], '%Y-%m-%d')
     k_trans_pro['ds'] = pd.to_datetime(k_trans_pro['ds'])
     print(type(k_trans_pro['ds']))
 
