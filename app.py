@@ -263,7 +263,7 @@ def goalTracking():
         pd_train['ds'] = pd.to_datetime(pd_train['ds'])
         #if goalDate is string, it must be converted to Datetime
         date_time_obj = datetime.datetime.strptime(goalDate, "%Y-%m-%d %H:%M:%S")
-        d = goalDate - pd_train.iloc[len(pd_train)-1]['ds']
+        d = date_time_obj - pd_train.iloc[len(pd_train)-1]['ds']
         d = d.days
 
         predictions = predict(pd_train, d)
