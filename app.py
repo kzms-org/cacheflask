@@ -263,7 +263,7 @@ def goalTracking():
         date_time_obj = datetime.datetime.strptime(goalDate, "%Y-%m-%d %H:%M:%S")
         d = date_time_obj - pd_train.iloc[len(pd_train)-1]['ds']
         d = d.days
-
+        print(f"d:{d}")
         predictions = predict(pd_train, d)
 
         total_spen = sum(predictions['yhat'])
