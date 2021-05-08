@@ -262,7 +262,7 @@ def goalTracking():
         #if goalDate is string, it must be converted to Datetime
         date_time_obj = datetime.datetime.strptime(goalDate, "%Y-%m-%d %H:%M:%S")
         
-        d = date_time_obj - pd_train.iloc[len(pd_train)-1]['ds']
+        d = date_time_obj - pd_train.iloc[0]['ds']
         d = d.days
         print(f"date_time_obj:{date_time_obj}")
         print(f"second parameter:{pd_train.iloc[len(pd_train)-1]['ds']}")
