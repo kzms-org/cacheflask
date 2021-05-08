@@ -229,9 +229,9 @@ def spendingForecast():
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         predictions = predict(pd_train, days)
 
-        print(predictions)
-        graph_img = graph_pre(predictions)
-      
+        # print(predictions)
+        # graph_img = graph_pre(predictions)
+        graph_img = cv2.imread("output.png")
         img_byte_array = getImageBytes(graph_img)
         # flatten this img
         img_byte_array = np.ndarray.flatten(img_byte_array)
@@ -262,7 +262,7 @@ def goalTracking():
         #if goalDate is string, it must be converted to Datetime
         date_time_obj = datetime.datetime.strptime(goalDate, "%Y-%m-%d %H:%M:%S")
         
-        d = date_time_obj - datetime.datetime.now()
+        d = date_time_obj - datetime.date(datetime.now())
         d = d.days
         print(f"date_time_obj:{date_time_obj}")
         print(f"second parameter:{pd_train.iloc[len(pd_train)-1]['ds']}")
@@ -364,8 +364,8 @@ def financialAdvising():
         max_day1 = d_freq.index(max(d_freq))
         d_freq[max_day1] = 0
         max_day2 = d_freq.index(max(d_freq))
-
-        message = f"You're sopending too much on {days[max_day1]} and {days[max_day2]}. Adjusting spending on these two days will make a major change in your spending throughout the month"
+        days_enum=["Saturdays","Sundays","Mondays","Tuesdays","Wednesdays","Thursdays","Fridays"]
+        message = f"You're sopending too much on {days_enum[max_day1]} and {days_enum[max_day2]}. Adjusting spending on these two days will make a major change in your spending throughout the month"
         
         # message = f"You're sopending too much on Thursday's and Monday's. Adjusting spending on these two days will make a major change in your spending throughout the month"
         return jsonify({"message": message})
