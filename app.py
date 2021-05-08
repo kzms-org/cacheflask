@@ -54,7 +54,6 @@ def csvPreProcessing():
             csv_file = request.files['file']
             
             df = pd.read_csv(csv_file)
-            print(df)
             df_latest_balance = df.tail(1)
             df_latest_balance.drop(columns=[list(df_latest_balance)[1],
                                             list(df_latest_balance)[2],
@@ -320,7 +319,7 @@ def balanceForecast():
 
         total_spen = sum(predictions['yhat'])
         print(total_spen)
-        end_balance = balance - total_spen
+        end_balance = round(balance - total_spen,2)
         
         if days == 7:
             return jsonify({"message": f"Based on your spending behaviour, your balance is expected to be {end_balance} at the end of the week"})
