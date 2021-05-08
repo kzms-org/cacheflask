@@ -316,9 +316,9 @@ def balanceForecast():
         predictions = predict(pd_train, days)
 
         total_spen = sum(predictions['yhat'])
-
+        print(total_spen)
         end_balance = balance - total_spen
-
+        
         if days == 7:
             return jsonify({"message": f"Based on your spending behaviour, your balance is expected to be {end_balance} at the end of the week"})
         elif days == 30:
