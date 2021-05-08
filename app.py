@@ -230,10 +230,9 @@ def spendingForecast():
         predictions = predict(pd_train, days)
 
         print(predictions)
-        # graph_img = graph_pre(predictions)
-        # graph_img = getImageBytes(graph_img)
-        img = cv2.imread("output.png")
-        img_byte_array = getImageBytes(img)
+        graph_img = graph_pre(predictions)
+      
+        img_byte_array = getImageBytes(graph_img)
         # flatten this img
         img_byte_array = np.ndarray.flatten(img_byte_array)
         # jsonify({"message": , "iamge": image})
@@ -257,7 +256,6 @@ def goalTracking():
         goalDate = mydata["goalDate"]
         savingGoal = mydata["savingAmount"]
         transactions_dict = mydata["transactions"]
-        print(transactions_dict)
 
         pd_train = pd.DataFrame.from_dict(transactions_dict)
         pd_train['ds'] = pd.to_datetime(pd_train['ds'])
@@ -272,10 +270,10 @@ def goalTracking():
 
         predicted_saving = balance - total_spen
         pred_percent = predicted_saving/savingGoal
-        print(balance+"balance")
-        print(total_spen+ "total_spent")
-        print(predicted_saving + "predicted saving")
-        print(pred_percent+"prediction percent")
+        print(f"balance {balance}")
+        print(f"total_spent {total_spen}")
+        print(f"predicted saving {predicted_saving}")
+        print(f"prediction percent {pred_percent}")
 
         if savingGoal > balance:
             return jsonify({"message": "this saving goal cannot be acheived with your balance. Please consider another goal"})
