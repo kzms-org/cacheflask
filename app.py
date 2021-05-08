@@ -52,6 +52,7 @@ def csvPreProcessing():
         if request.files['file'].filename != None:
             print("has receipt report.csv")
             csv_file = request.files['file']
+            print(csv_file)
             df = pd.read_csv(csv_file)
 
             df_latest_balance = df.tail(1)
@@ -179,7 +180,9 @@ def csvPreProcessing():
 
             df_Earnings['Date'] = df_Earnings['Date'].astype(str)
             earn_dict = df_Earnings.to_dict('records')
-
+            print(earn_dict)
+            print(spend_dict)
+            print(info_dict)
             # with open("Earn.json", "w") as outfile:
             #     json.dump(earn_dict, outfile)
 
