@@ -123,7 +123,7 @@ def csvPreProcessing():
             df_beta = df_col.copy()
 
             start_list = ('from', 'FROM', 'Transaction')
-            end_list = ('SAR', 'USD','in','for')
+            end_list = ('SAR', 'USD')
 
             df_beta['no_preceders'] = df_beta.Transaction_Description.apply(
                 to_apply(remove_preceders,
